@@ -3,9 +3,9 @@ minessh
 
 Controls mining servers over SSH
 
-****************************Overview**********************************************************************************
+Overview
 Bash script for controlling mining servers running on BAMT 1.3/1.6 or SMOS Linux It could control any number of mining servers. It is preferably to run it against BAMT 1.6 servers as i already included easy function to quiclly switch over mining software e.g. cgminer/sgminer/vertminer. Also it is possible to add your own custom compiled miner and switch to it within menu. Tested on Lubuntu 13.10 and any Debian based distros works out of box, also it could run on any Linux distro whith small modifications.
-**********************************************************************************************************************
+
 
 List of features:
 
