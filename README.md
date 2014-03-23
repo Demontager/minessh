@@ -31,7 +31,7 @@ List of features:
 
 -Real-time monitoring for all servers in one window
 
--Cron task to periodically control and reboot dead/sick/idle mining servers
+-Crontab tasks to periodically control and reboot dead/sick/idle mining servers
 
 
 
