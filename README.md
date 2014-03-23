@@ -50,7 +50,10 @@ Please let me know if you found any bugs or want to suggest something.
 Screenshots
 
 Main menu: http://simplest-image-hosting.net/png-0-menu3
+
 Mining servers' status:  http://simplest-image-hosting.net/png-0-status0
+
 Switch over between mining software:  http://simplest-image-hosting.net/png-0-mining-soft
+
 Real-time moniroing:  http://simplest-image-hosting.net/png-0-real-time
 
