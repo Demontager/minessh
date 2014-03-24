@@ -1,7 +1,5 @@
 #!/bin/bash
-# author: demontager 
-# website: nixtalk.com
-# 
+# author: demontager
 #
 #*******Secton for configuration****************************************
 
@@ -13,7 +11,7 @@ miners[2]="192.168.1.3 -p 22"
 #miners[3]="000.00.00.00 -p 22"
 #miners[4]="000.00.00.00 -p 22"
 
-# 2. Define your mining pools. Change only "url", "user", "pass" tokens.
+# 2. Define your mining pools. 
 #************************POOL CONFIG************************************
 
 pool() {
@@ -23,18 +21,17 @@ cat <<'EOF' | ssh root@$host 'cat - > /tmp/pool.tmp && sed -n "/]/{:a;n;/}/b;p;b
 && rm /tmp/pool.tmp /tmp/cgminer.conf.tmp'	
 {
 "pools" : [
-        {
-                "url" : "stratum+tcp://server:3333",
-                "user" : "User",
-                "pass" : "x"
-        
-        },
-        {
-                "url" : "stratum+tcp://server1:3333",
-                "user" : "User",
-                "pass" : "x"
+       {
+                  "url" : "stratum+tcp://server:3333",
+                  "user" : "User",
+                  "pass" : "x"
+       },
+       {
+                  "url" : "stratum+tcp://server1:3333",
+                  "user" : "User",
+                  "pass" : "x"
 
-        }
+       }
 ]
 EOF
 ssh root@$host 'mine restart'
@@ -48,33 +45,30 @@ echo ""
 COUNTER=-1
 for host in "${miners[@]}"; do
   let COUNTER=COUNTER+1 
-  echo -n -e "[$COUNTER]${MENU} Miner IP:${NORMAL}" && echo $host|awk '{print $1}'
+  echo -n -e "[$COUNTER]${MENU} Miner IP:${NORMAL} " && echo $host|awk '{print $1}'
   echo ""
 done    
-echo -n -e "${MENU}Choose mining server: [0 1 2.. or all] ${NORMAL}"
+echo -n -e "${MENU}Choose mining server: [0 1 2.. or type all] ${NORMAL}"
+echo ""
+echo -n  -e "${MENU}[Enter] back to Main Menu${NORMAL}"
+echo ""
 read miner	
 echo "$miner" | grep '^[0-9][0-9]*$' >/dev/null 2>&1
 if [ `echo $?` = 0 ] || [ $miner = 'all' ]; then
   if [ $miner = 'all' ]; then
-    echo "Sure to reboot all mining servers ? [y/n] "
-      read choice
-      if [ $choice = 'y' ] || [ $choice = 'yes' ]; then  
-        for host in "${miners[@]}"; do   
-        pool_ex
-        done
-        menu_list
-      elif [ $choice = 'n' ] || [ $choice = 'no' ]; then
-        main_menu
-      else
-        main_menu
-      fi
-elif [ $miner != 'all' ]; then
-  host="${miners[$miner]}"
-  pool_ex
-  menu_list  
+    for host in "${miners[@]}"; do  
+      pool_ex
+    done
+    menu_list
+  elif [ $miner != 'all' ]; then
+    host="${miners[$miner]}"
+    pool_ex
+    menu_list  
+  else
+    main_menu
   fi
 else
-  echo "Invalid mining server"
+   main_menu
 fi  
 }
 colors() {
@@ -164,10 +158,11 @@ echo ""
 COUNTER=-1
 for host in "${miners[@]}"; do
   let COUNTER=COUNTER+1 
-  echo -n -e "$COUNTER.${MENU} Miner IP:${NORMAL}" && echo $host|awk '{print $1}'
+  echo -n -e "[$COUNTER]${MENU} Miner IP:${NORMAL} " && echo $host|awk '{print $1}'
   echo ""
 done  
-echo -n -e "${MENU}Choose mining server 0 1 2.. ${NORMAL}"
+echo -n -e "${MENU}Choose mining server [0 1 2.. ]${NORMAL}"
+echo ""
 read miner
 clear; echo -n "Mining server:  " && echo ${miners[$miner]}|awk '{print $1}'
 echo ""
@@ -181,7 +176,7 @@ echo ""
 COUNTER=-1
 for host in "${miners[@]}"; do
   let COUNTER=COUNTER+1 
-  echo -n -e "$COUNTER.${MENU} Miner IP:${NORMAL}" && echo $host|awk '{print $1}'
+  echo -n -e "[$COUNTER]${MENU} Miner IP:${NORMAL} " && echo $host|awk '{print $1}'
   echo ""
 done  
 
@@ -190,7 +185,10 @@ ssh root@$host 'sync && /sbin/coldreboot'
 echo -n "Reboot signal sent to: "&& echo $host|awk '{print $1}'
 echo ""
 }
-echo -n -e "${MENU}Choose mining server: [0 1 2.. or all] ${NORMAL}"
+echo -n -e "${MENU}Choose mining server: [0 1 2.. or type all] ${NORMAL}" 
+echo ""
+echo -n  -e "${MENU}[Enter] back to Main Menu${NORMAL}"
+echo ""
 read miner	
 echo "$miner" | grep '^[0-9][0-9]*$' >/dev/null 2>&1
 if [ `echo $?` = 0 ] || [ $miner = 'all' ]; then
@@ -213,8 +211,8 @@ elif [ $miner != 'all' ]; then
   menu_list  
   fi
 else
-  echo "Invalid mining server"
-fi  
+  main_menu
+fi 
 }
 
 ssh_server() {
