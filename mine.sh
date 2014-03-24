@@ -1,6 +1,6 @@
 #!/bin/bash
 # author: demontager
-#
+# website: nixtalk.com
 #*******Secton for configuration****************************************
 
 # 1. Define mining server ip and port, uncomment(remove trailing #) or add aditional if required
