@@ -21,17 +21,18 @@ cat <<'EOF' | ssh root@$host 'cat - > /tmp/pool.tmp && sed -n "/]/{:a;n;/}/b;p;b
 && rm /tmp/pool.tmp /tmp/cgminer.conf.tmp'	
 {
 "pools" : [
-       {
-                  "url" : "stratum+tcp://server:3333",
-                  "user" : "User",
-                  "pass" : "x"
-       },
-       {
-                  "url" : "stratum+tcp://server1:3333",
-                  "user" : "User",
-                  "pass" : "x"
+        {
+                "url" : "stratum+tcp://mine.coinshift.com:3333",
+                "user" : "1PGgybf5QbCTohCoRgEA4Q5ZSLhpSsg8cn",
+                "pass" : "x"
+        
+        },
+        {
+                "url" : "stratum+tcp://eu.wafflepool.com:3333",
+                "user" : "1PGgybf5QbCTohCoRgEA4Q5ZSLhpSsg8cn",
+                "pass" : "x"
 
-       }
+        }
 ]
 EOF
 ssh root@$host 'mine restart'
@@ -240,6 +241,28 @@ sleep 5
 menu_list
 }
 
+ssh_login() {
+echo ""
+COUNTER=-1
+for host in "${miners[@]}"; do
+  let COUNTER=COUNTER+1 
+  echo -n -e "[$COUNTER]${MENU} Miner IP:${NORMAL} " && echo $host|awk '{print $1}'
+  echo ""
+done  
+echo -n -e "${MENU}Choose mining server [0 1 2.. ]${NORMAL}"
+echo ""
+echo -n  -e "${MENU}[Enter] back to Main Menu${NORMAL}"
+echo ""
+read miner
+if [ -n "$miner" ]; then
+  clear; echo -n "Mining server:  " && echo ${miners[$miner]}|awk '{print $1}'
+  echo ""
+  ssh -t root@${miners[$miner]} "cd /etc/bamt ; ls; bash"
+  menu_list
+else 
+  main_menu
+fi	
+}
 miner_change(){
 echo ""
 COUNTER=-1
@@ -510,11 +533,12 @@ show_menu(){
     echo -e "${MENU}************Main Menu***********************${NORMAL}"
     echo -e "${MENU}**${NUMBER} 1)${MENU} Show mining servers status ${NORMAL}"
     echo -e "${MENU}**${NUMBER} 2)${MENU} Change pool config for selected miner  ${NORMAL}"
-    echo -e "${MENU}**${NUMBER} 3)${MENU} View pool config of selected miner ${NORMAL}"
+    echo -e "${MENU}**${NUMBER} 3)${MENU} View pool config for selected miner ${NORMAL}"
     echo -e "${MENU}**${NUMBER} 4)${MENU} Reboot mining server ${NORMAL}"
     echo -e "${MENU}**${NUMBER} 5)${MENU} Switch mining software e.g. scrypt/scrypt-jane/scrypt-n.. ${NORMAL}"
     echo -e "${MENU}**${NUMBER} 6)${MENU} Configure mining server SSH authentication ${NORMAL}"
-    echo -e "${MENU}**${NUMBER} 7)${MENU} Real time monitoring ${NORMAL}"
+    echo -e "${MENU}**${NUMBER} 7)${MENU} SSH login to mining server ${NORMAL}"
+    echo -e "${MENU}**${NUMBER} 8)${MENU} Real time monitoring ${NORMAL}"
     echo -e "${MENU}*********************************************${NORMAL}"
     echo -e "${ENTER_LINE}Please pick a menu option and enter or ${RED_TEXT}enter to exit. ${NORMAL}"
     read opt
@@ -568,6 +592,11 @@ while [ opt != '' ]
             show_menu;
             ;;
          7) clear;
+            option_picked "SSH login to mining server";
+            ssh_login;
+            show_menu;
+            ;;   
+         8) clear;
             option_picked "Real time monitoring";
             monitor
             main_menu     
