@@ -25,7 +25,7 @@ List of features:
 
 -Reboot selected miner or all together
 
--View pool config of selected miner
+-View pool config for selected miner
 
 -Switch over between 4 included mining software in BAMT 1.6 + 2 custom
 
