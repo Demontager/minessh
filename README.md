@@ -29,6 +29,8 @@ List of features:
 
 -Switch over between 4 included mining software in BAMT 1.6 + 2 custom
 
+-Allows to do quick SSH login to mining servers
+
 -Real-time monitoring for all servers in one window
 
 -Crontab tasks to periodically control and reboot dead/sick/idle mining servers
