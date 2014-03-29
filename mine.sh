@@ -41,6 +41,7 @@ echo -n -e "${RED_TEXT}Mining config changed for:${NORMAL} "&& echo $host|awk '{
 echo ""
 }
 
+
 #***************Configuration END***************************************
 echo ""
 COUNTER=-1
@@ -119,12 +120,63 @@ menu_list
 }
 
 cron() {
+if_sick () {
+for server in "${miners[@]}"; do	
+cat <<'EOF' | ssh root@$server 'cat - > /etc/bamt/api.py && python /etc/bamt/api.py devs > /tmp/if_sick.txt'	
+import socket
+import json
+import sys
+
+def linesplit(socket):
+	buffer = socket.recv(4096)
+	done = False
+	while not done:
+		more = socket.recv(4096)
+		if not more:
+			done = True
+		else:
+			buffer = buffer+more
+	if buffer:
+		return buffer
+
+api_command = sys.argv[1].split('|')
+
+if len(sys.argv) < 3:
+	api_ip = '127.0.0.1'
+	api_port = 4028
+else:
+	api_ip = sys.argv[2]
+	api_port = sys.argv[3]
+
+s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+s.connect((api_ip,int(api_port)))
+if len(api_command) == 2:
+	s.send(json.dumps({"command":api_command[0],"parameter":api_command[1]}))
+else:
+	s.send(json.dumps({"command":api_command[0]}))
+
+response = linesplit(s)
+response = response.replace('\x00','')
+response = json.loads(response)
+if api_command[0]=="devs":
+    j=1
+    for i in response["DEVS"]:
+        print j, i["Status"]
+        j+=1 
+else:
+    print response
+s.close()
+EOF
+done	
+}	
+if_temp() {	
 for server in "${miners[@]}"; do	
 cat <<'EOF' | ssh root@$server 'cat - > /etc/bamt/cardcheck.sh && chmod +x /etc/bamt/cardcheck.sh && /etc/bamt/cardcheck.sh'
-targetMinTemp=52
+targetMinTemp=57
+sickres="/tmp/if_sick.txt"
 i=0
 (/opt/bamt/viewgpu | awk '{ print $2; }' | cut -c -2 > /tmp/viewgpu)
-sleep 5
+sleep 3
 array=(`cat /tmp/viewgpu`)
 if [ ${#array[@]} -eq 0 ]; then
   echo "`date +%m-%d-%Y` `uptime | awk -F, '{sub(".*ge ",x,$1);print $1}'` viewgpu command failed to run, rebooting" >>  /etc/bamt/autoRebooter.log
@@ -150,8 +202,25 @@ for temp in ${array[@]}; do
   fi
 i=$(($i+1))
 done
+cards=(`cat $sickres|awk '{print $2}'`)
+egrep -w 'Sick|Dead' $sickres
+status=`echo $?`
+if [ "$status" = 0 ]; then
+  for card in ${cards[@]}; do
+    echo "`date +%m-%d-%Y` `uptime | awk -F, '{sub(".*ge ",x,$1);print $1}'` card number $i is ${cards[$card]} , coldrebooting" >> /etc/bamt/autoRebooter.log
+    sync && /sbin/coldreboot &
+    sleep 30
+    echo s > /proc/sysrq-trigger
+    sleep 10
+    echo b > /proc/sysrq-trigger
+  i=$(($i+1))
+  done
+fi
 EOF
 done
+}
+if_sick
+if_temp
 }
 
 viewpool() {
