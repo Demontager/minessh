@@ -22,14 +22,14 @@ cat <<'EOF' | ssh root@$host 'cat - > /tmp/pool.tmp && sed -n "/]/{:a;n;/}/b;p;b
 {
 "pools" : [
         {
-                "url" : "stratum+tcp://mine.coinshift.com:3333",
-                "user" : "1PGgybf5QbCTohCoRgEA4Q5ZSLhpSsg8cn",
+                "url" : "stratum+tcp://server:3333",
+                "user" : "User",
                 "pass" : "x"
         
         },
         {
-                "url" : "stratum+tcp://eu.wafflepool.com:3333",
-                "user" : "1PGgybf5QbCTohCoRgEA4Q5ZSLhpSsg8cn",
+                "url" : "stratum+tcp://server1:3333",
+                "user" : "User",
                 "pass" : "x"
 
         }
