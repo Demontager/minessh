@@ -62,6 +62,9 @@ Switch over between mining software:  http://simplest-image-hosting.net/png-0-mi
 
 Real-time monitoring:  http://simplest-image-hosting.net/png-0-real-time
 
+Updates:
+28.03.2014 -Added card status direct check via cgminer API
+25.03.2014 -Added quick ssh login item to menu
 
 You may give me some bounty to support my work and further improvement:
 
