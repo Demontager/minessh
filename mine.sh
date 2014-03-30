@@ -11,7 +11,7 @@ miners[2]="192.168.1.3 -p 22"
 #miners[3]="000.00.00.00 -p 22"
 #miners[4]="000.00.00.00 -p 22"
 
-# 2. Define your mining pools. 
+# 2. Define your mining pools. Change "url", "user", "pass" fields. Unlimited pools could be specified, two as example only.
 #************************POOL CONFIG************************************
 
 pool() {
