@@ -1,7 +1,7 @@
 #!/bin/bash
 # author: demontager
 # website: nixtalk.com
-#*******Secton for configuration****************************************
+#*******Secton for configuration***************************************#
 
 # 1. Define mining server ip and port, uncomment(remove trailing #) or add aditional if required
 
@@ -11,38 +11,35 @@ miners[2]="192.168.1.3 -p 22"
 #miners[3]="000.00.00.00 -p 22"
 #miners[4]="000.00.00.00 -p 22"
 
-# 2. Define your mining pools. Change "url", "user", "pass" fields. Unlimited pools could be specified, two as example only.
-#************************POOL CONFIG************************************
-
-pool() {
-pool_ex() {
-cat <<'EOF' | ssh root@$host 'cat - > /tmp/pool.tmp && sed -n "/]/{:a;n;/}/b;p;ba}" /etc/bamt/cgminer.conf > /tmp/cgminer.conf.tmp \
-&& cat /tmp/pool.tmp /tmp/cgminer.conf.tmp > /etc/bamt/cgminer.conf && echo "}" >> /etc/bamt/cgminer.conf \
-&& rm /tmp/pool.tmp /tmp/cgminer.conf.tmp'	
+# 2. Define your mining pools. Change "url", "user", "pass" fields. Unlimited pools could be specified, two as example only. 
+#************************POOL CONFIG***********************************#
+config=$(cat << 'EOF'
 {
 "pools" : [
-        {
-                "url" : "stratum+tcp://server:3333",
-                "user" : "User",
-                "pass" : "x"
-        
-        },
-        {
-                "url" : "stratum+tcp://server1:3333",
-                "user" : "User",
-                "pass" : "x"
-
+         {
+         "url" : "stratum+tcp://server:3336",
+         "user" : "User",
+         "pass" : "x"
+         },          
+         {    
+          "url" : "stratum+tcp://server1:3336",
+          "user" : "User",
+          "pass" : "x"
         }
 ]
 EOF
+)
+#***************Configuration END**************************************#
+pool() {
+pool_ex() {
+echo "$config"|ssh root@$host 'cat - > /tmp/pool.tmp && sed -n "/]/{:a;n;/}/b;p;ba}" /etc/bamt/cgminer.conf > /tmp/cgminer.conf.tmp \
+&& cat /tmp/pool.tmp /tmp/cgminer.conf.tmp > /etc/bamt/cgminer.conf && echo "}" >> /etc/bamt/cgminer.conf \
+&& rm /tmp/pool.tmp /tmp/cgminer.conf.tmp'	
 ssh root@$host 'mine restart'
 echo ""
 echo -n -e "${RED_TEXT}Mining config changed for:${NORMAL} "&& echo $host|awk '{print $1}'
 echo ""
 }
-
-
-#***************Configuration END***************************************
 echo ""
 COUNTER=-1
 for host in "${miners[@]}"; do
@@ -74,7 +71,7 @@ else
 fi  
 }
 colors() {
-#****************Colors*************************************************
+#***************Colors*************************************************#
 NORMAL=`echo "\033[m"`
 MENU=`echo "\033[36m"` #Blue
 NUMBER=`echo "\033[33m"` #yellow
