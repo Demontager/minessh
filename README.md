@@ -74,6 +74,7 @@ Switch over between mining software:  http://simplest-image-hosting.net/png-0-mi
 Real-time monitoring:  http://simplest-image-hosting.net/png-0-real-time
 
 **Updates:**
+
 08.04.2014 -Separated bamt/pimp scipts 
 
 03.04.2014 -Added PIMP support (see PIMP folder)
