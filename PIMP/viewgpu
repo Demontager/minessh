@@ -1,0 +1,75 @@
+#!/usr/bin/perl 
+
+# This file is part of PiMP. 
+# Prerequisites: Must have IFMI Poolmanager Installed.
+
+
+eval
+{
+ require '/opt/ifmi/pm-common.pl';
+};
+
+if ($@)
+{
+  die "\n\n\nWe were unable to find or process a core Poolmanager library:\n\n" .
+    $@ . "\n\n\nviewgpu cannot function until the above error is corrected.\n\nMaybe this happened";
+}
+
+
+$SIG{__DIE__} = sub { &handleDeath(@_); };
+
+our $type = 0;
+
+if (@ARGV)
+{
+	if ($ARGV[0] eq 'id')
+	{
+		$type = 1;
+	}
+}
+
+our $msg = "";
+
+my $conf = &getConfig;
+%conf = %{$conf};
+
+my (@gpus) = &getFreshGPUData;
+
+if ($type == 0)
+{
+	for (my $k = 0;$k < @gpus;$k++)
+	{
+	 
+		 $msg .= "$k: ";
+	 $msg .=sprintf("%2.1fc ", $gpus[$i]{'current_temp_0_c'}); 		 
+	#	 $msg .= sprintf("%2.1fc ",${@gpus[$k]}{current_temp_0});
+		 
+		 if (${@gpus[$k]}{disabled})
+		 {
+			 $msg .= "disabled\n";
+		 }
+		 else
+		 {
+			 if (! ${@gpus[$k]}{hashrate})
+			 {
+				 $msg .= "not mining";
+			 }
+			 else
+			 {
+				 $msg .= sprintf("%3.2f",${@gpus[$k]}{hashrate}) . ' Kh/s ';
+				 
+				 $msg .= ${@gpus[$k]}{pool_url};
+			 }
+		 }
+			 
+		 $msg .= "\n";
+	  
+	}
+}
+elsif ($type == 1)
+{
+	
+}
+
+
+print $msg;
