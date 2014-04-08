@@ -75,7 +75,7 @@ Real-time monitoring:  http://simplest-image-hosting.net/png-0-real-time
 
 **Updates:**
 
-08.04.2014 -Separated bamt/pimp scipts 
+08.04.2014 -Separated bamt/pimp scripts 
 
 03.04.2014 -Added PIMP support (see PIMP folder)
 
