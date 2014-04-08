@@ -46,7 +46,7 @@ Tested on Lubuntu 13.10 and on any Debian based distros should work out of box, 
 4. Launch script ./mine.sh
 5. Set up non-password authentication. Press 7 and procceed to further instructions.
 6. All done. You may back to menu and choose desired option.
-7. (Optional) If you would like to setup cron job then you need to run script with cron parameter. For example to test mining servers every 20 minutes add line to crontab. */20 * * * * /mine.sh cron
+7. (Optional) If you would like to setup cron job then you need to run script with cron parameter. For example to test mining servers every 20 minutes add line to crontab. */20 * * * * /root/mine.sh cron
 
 
 **How to add your custom miner. As an example explained how to add YACminer.**
@@ -74,6 +74,7 @@ Switch over between mining software:  http://simplest-image-hosting.net/png-0-mi
 Real-time monitoring:  http://simplest-image-hosting.net/png-0-real-time
 
 **Updates:**
+08.04.2014 -Separated bamt/pimp scipts 
 
 03.04.2014 -Added PIMP support (see PIMP folder)
 
