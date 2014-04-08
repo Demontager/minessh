@@ -58,7 +58,7 @@ Tested on Lubuntu 13.10 and on any Debian based distros should work out of box, 
 5. Run bamt.sh and choose "Change mining software.." from the menu then in next submenu choose "custom"
 6. That's it. Yacminer now default mining software. Mining process will restart automatically.
 
-Note:At same way you may add custom1 miner, but make sure to keep these names /opt/miners/custom1 and /etc/bamt/custom1.conf
+Note: In same way you may add custom1 miner, but make sure to keep these names /opt/miners/custom1 and /etc/bamt/custom1.conf
 
 
 Please let me know if you found any bugs or want to suggest something.
