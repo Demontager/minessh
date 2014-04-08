@@ -1,0 +1,4 @@
+Files overview
+=====
+pimp.sh - manage mining servers running on PIMP Debian 64bit OS
+bamtpimp.sh - manage mining servers running on BAMT or PIMP with single file.
