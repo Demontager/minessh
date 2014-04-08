@@ -49,6 +49,17 @@ Tested on Lubuntu 13.10 and on any Debian based distros should work out of box, 
 7. (Optional) If you would like to setup cron job then you need to run script with cron parameter. For example to test mining servers every 20 minutes add line to crontab. */20 * * * * /mine.sh cron
 
 
+**How to add your custom miner. As an example explained how to add YACminer.**
+
+1. Copy from other place or compile yacminer in /opt/miners
+2. Change directory to /opt/miners/YACminer and rename yacminer binary to cgminer. Make sure it has executable flag "x" if not do chmod +x cgminer
+3. Rename /opt/miners/YACminer to /opt/miners/custom
+4. Create yacminer configuration file /etc/bamt/custom.conf (Pools and miner settings)
+5. Run bamt.sh and choose "Change mining software.." from the menu then in next submenu choose "custom"
+6. That's it. Yacminer now default mining software. Mining process will restart automatically.
+
+Note:At same way you may add custom1 miner, but make sure to keep these names /opt/miners/custom1 and /etc/bamt/custom1.conf
+
 
 Please let me know if you found any bugs or want to suggest something.
 
@@ -62,7 +73,9 @@ Switch over between mining software:  http://simplest-image-hosting.net/png-0-mi
 
 Real-time monitoring:  http://simplest-image-hosting.net/png-0-real-time
 
-**Updates:**
+**Updates:*
+
+03.04.2014 -Added PIMP support (see PIMP folder)
 
 28.03.2014 -Added card status direct check via cgminer API
 
