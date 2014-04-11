@@ -17,6 +17,8 @@ Tested on Lubuntu 13.10 and on any Debian based distros should work out of box, 
 
 -Fully interactive menu
 
+-Email notification when mining failed
+
 -Unlimited number of mining servers
 
 -Automatically adds non-password authentication
@@ -74,6 +76,8 @@ Switch over between mining software:  http://simplest-image-hosting.net/png-0-mi
 Real-time monitoring:  http://simplest-image-hosting.net/png-0-real-time
 
 **Updates:**
+
+11.04.2014-Added email notifications
 
 08.04.2014 -Separated bamt/pimp scripts 
 
