@@ -32,7 +32,7 @@ EOF
 # 3. Enable email notification ? YES/NO, default: NO
 notify="NO"
 
-# 4. Define mail settings to get notified. Leave smpt and port
+# 4. Define mail settings to get notified. Leave smpt and port as default if gmail used.
 email="your_id@gmail.com"
 password="your_password"
 smtp="smtp.gmail.com"
