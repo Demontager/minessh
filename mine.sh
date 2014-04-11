@@ -32,9 +32,9 @@ EOF
 # 3. Enable email notification ? YES/NO, default: NO
 notify="NO"
 
-# 4. Define mail settings to get notified. Leave smpt and port as default if gmail used.
+# 4. Define mail settings to get notified. Leave smpt and port
 email="your_id@gmail.com"
-password="your_email_password"
+password="your_password"
 smtp="smtp.gmail.com"
 port="587"
 #***************Configuration END**************************************#
@@ -118,7 +118,7 @@ done
 status() {
 for server in "${miners[@]}"; do
   echo ""
-  echo -e "${MENU}*********Miner IP: `echo $server|awk '{print $1}'`${NORMAL}"
+  echo -e "${MENU}*********Miner IP: `echo $server`${NORMAL}"
   echo ""
   ssh root@$server '/opt/bamt/viewgpu'
   done
@@ -131,13 +131,13 @@ echo ""
 COUNTER=-1
 for host in "${miners[@]}"; do
   let COUNTER=COUNTER+1 
-  echo -n -e "[$COUNTER]${MENU} Miner IP:${NORMAL} " && echo $host|awk '{print $1}'
+  echo -n -e "[$COUNTER]${MENU} Miner IP:${NORMAL} " && echo $host
   echo ""
 done  
 echo -n -e "${MENU}Choose mining server [0 1 2.. ]${NORMAL}"
 echo ""
 read miner
-clear; echo -n "Mining server:  " && echo ${miners[$miner]}|awk '{print $1}'
+clear; echo -n "Mining server:  " && echo ${miners[$miner]}
 echo ""
 ssh root@${miners[$miner]} 'cat /etc/bamt/cgminer.conf'	
 menu_list
@@ -148,13 +148,13 @@ echo ""
 COUNTER=-1
 for host in "${miners[@]}"; do
   let COUNTER=COUNTER+1 
-  echo -n -e "[$COUNTER]${MENU} Miner IP:${NORMAL} " && echo $host|awk '{print $1}'
+  echo -n -e "[$COUNTER]${MENU} Miner IP:${NORMAL} " && echo $host
   echo ""
 done  
 
 reboot_ex() {	
 ssh root@$host 'sync && /sbin/coldreboot'
-echo -n "Reboot signal sent to: "&& echo $host|awk '{print $1}'
+echo -n "Reboot signal sent to: "&& echo $host
 echo ""
 }
 echo -n -e "${MENU}Choose mining server: [0 1 2.. or type all] ${NORMAL}" 
@@ -202,7 +202,7 @@ ${RED_TEXT}*********************************************************************
 
 id_add() {
 for host in "${miners[@]}"; do 
-  echo -e "${MENU}*********Miner IP: `echo $host|awk '{print $1}'`${NORMAL}"
+  echo -e "${MENU}*********Miner IP: echo $host ${NORMAL}"
   if [ `uname -n` != 'bamt-miner' ] && [ `uname -n` != 'bamt' ] && [ `uname -n` != 'smos' ]; then
     ssh-copy-id -i ~/.ssh/id_rsa.pub root@$host
   else
@@ -242,7 +242,7 @@ echo ""
 COUNTER=-1
 for host in "${miners[@]}"; do
   let COUNTER=COUNTER+1 
-  echo -n -e "[$COUNTER]${MENU} Miner IP:${NORMAL} " && echo $host|awk '{print $1}'
+  echo -n -e "[$COUNTER]${MENU} Miner IP:${NORMAL} " && echo $host
   echo ""
   echo ""
 done  
@@ -252,7 +252,7 @@ echo -n  -e "${MENU}[Enter] back to Main Menu${NORMAL}"
 echo ""
 read miner
 if [ -n "$miner" ]; then
-  clear; echo -n "Mining server:  " && echo ${miners[$miner]}|awk '{print $1}'
+  clear; echo -n "Mining server:  " && echo ${miners[$miner]}
   echo ""
   ssh -t root@${miners[$miner]} "cd /etc/bamt ; ls; bash"
   menu_list
@@ -266,7 +266,7 @@ echo ""
 COUNTER=-1
 for host in "${miners[@]}"; do
   let COUNTER=COUNTER+1 
-  echo -n -e "[$COUNTER]${MENU} Miner IP:${NORMAL}" && echo $host|awk '{print $1}'
+  echo -n -e "[$COUNTER]${MENU} Miner IP:${NORMAL}" && echo $host
   echo ""
 done 
 miner_ex() {
@@ -424,7 +424,7 @@ rm /root/.hushlogin
 EOT
 )"
 echo ""
-echo -n -e "${RED_TEXT}Mining software changed on: ${NORMAL}"&& echo $host|awk '{print $1}'
+echo -n -e "${RED_TEXT}Mining software changed on: ${NORMAL}"&& echo $host
 echo ""
 } 
 echo -e "${MENU}Choose mining server: [0 1 2... or all] ${NORMAL}"
@@ -583,9 +583,9 @@ if [ "$notify" = 'YES' ]; then
   if [ `echo $?` != 0 ]; then
     echo ""
     echo "Seems msmtp not installed, it is required for mail functionality
-You will be promted for root password to install msmtp automatically"
+If promted for root password enter it to install msmtp automatically"
     sleep 5
-    sudo apt-get --yes --force-yes install msmtp
+    sudo apt-get --yes --force-yes install msmtp bsd-mailx
     clear
     echo "Sending logs standby..."
     echo ""
