@@ -30,7 +30,7 @@ config=$(cat << 'EOF'
 EOF
 )
 # 3. Enable email notification ? YES/NO, default: NO
-notify="YES"
+notify="NO"
 
 # 4. Define mail settings to get notified. Leave smpt and port as default if gmail used.
 email="your_id@gmail.com"
