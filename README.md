@@ -49,7 +49,8 @@ Tested on Lubuntu 13.10 and on any Debian based distros should work out of box, 
 5. Set up non-password authentication. Press 7 and procceed to further instructions.
 6. All done. You may back to menu and choose desired option.
 
-(Optional)
+*(Optional)*
+
 7. If you would like to setup cron job then you need to run script with cron parameter. For example to test mining servers every 20 minutes add line to crontab   */20 * * * * /root/mine.sh cron
 8. Enable email notifications, set notify="YES" and enter email details. Then while running cron task script will perform checks and if mining failed you will get email. Also at any time you may send mining logs from all miners to defined email, this option available within main menu.
 
