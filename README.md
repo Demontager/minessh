@@ -79,6 +79,8 @@ Switch over between mining software:  http://simplest-image-hosting.net/png-0-mi
 
 Real-time monitoring:  http://simplest-image-hosting.net/png-0-real-time
 
+E-mail notification: http://simplest-image-hosting.net/jpg-0-email
+
 **Updates:**
 
 11.04.2014-Added email notifications
