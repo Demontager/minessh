@@ -8,7 +8,7 @@ Controls mining servers over SSH
 Bash script for controlling mining servers running on BAMT 1.3/1.5/1.6 or SMOS Linux (optionally PIMP).
 It may control any number of mining servers. It is preferably to run it against BAMT 1.6 servers as script already included easy function to quickly switch over mining software e.g. cgminer/sgminer/vertminer. 
 Also it is possible to add your own custom compiled miner and switch to it within menu. 
-Tested on Lubuntu 13.10 and on any Debian based distros should work out of box, also it could run on any Linux distro whith small modifications.
+Tested on Lubuntu 13.10 and on any Debian based distros should work out of box, also it could run on any Linux distro with small modifications.
 
 
 **List of features:**
@@ -48,7 +48,10 @@ Tested on Lubuntu 13.10 and on any Debian based distros should work out of box, 
 4. Launch script ./mine.sh
 5. Set up non-password authentication. Press 7 and procceed to further instructions.
 6. All done. You may back to menu and choose desired option.
-7. (Optional) If you would like to setup cron job then you need to run script with cron parameter. For example to test mining servers every 20 minutes add line to crontab. */20 * * * * /root/mine.sh cron
+
+(Optional)
+7. If you would like to setup cron job then you need to run script with cron parameter. For example to test mining servers every 20 minutes add line to crontab   */20 * * * * /root/mine.sh cron
+8. Enable email notifications, set notify="YES" and enter email details. Then while running cron task script will perform checks and if mining failed you will get email. Also at any time you may send mining logs from all miners to defined email, this option available within main menu.
 
 
 **How to add your custom miner. As an example explained how to add YACminer.**
