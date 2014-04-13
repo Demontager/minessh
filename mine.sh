@@ -54,7 +54,7 @@ echo ""
 COUNTER=-1
 for host in "${miners[@]}"; do
   let COUNTER=COUNTER+1 
-  echo -n -e "[$COUNTER]${MENU} Miner IP:${NORMAL} " && echo $host|awk '{print $1}'
+  echo -n -e "[$COUNTER]${MENU} Miner IP:${NORMAL} " && echo $host
   echo ""
 done    
 echo -n -e "${MENU}Choose mining server: [0 1 2.. or type all] ${NORMAL}"
@@ -134,29 +134,38 @@ for host in "${miners[@]}"; do
   echo -n -e "[$COUNTER]${MENU} Miner IP:${NORMAL} " && echo $host
   echo ""
 done  
-echo -n -e "${MENU}Choose mining server [0 1 2.. ]${NORMAL}"
+echo -n -e "${MENU}Choose mining server [ 0 1 2.. ]${NORMAL}"
+echo ""
+echo -n  -e "${MENU}[Enter] back to Main Menu${NORMAL}"
 echo ""
 read miner
+echo "$miner" | grep '^[0-9][0-9]*$' >/dev/null 2>&1
+if [ `echo $?` = 0 ]; then
 clear; echo -n "Mining server:  " && echo ${miners[$miner]}
+echo -e "${MENU}Usage: [CTRL+O]save [CTRL+X]exit${NORMAL}"
+read -t 5 ; echo ; clear
 echo ""
-ssh root@${miners[$miner]} 'cat /etc/bamt/cgminer.conf'	
+ssh -t root@${miners[$miner]} 'nano /etc/bamt/cgminer.conf'	
 menu_list
+else
+  echo "Unknow miner, going back to Main Menu.."
+  main_menu
+fi  
 }
 
-reboot() {
+restart() {
+restart_ex() {	
+ssh root@$host 'mine restart'
+echo -n -e "${MENU}Mining restarted on: ${NORMAL}"&& echo $host
+echo ""
+}
 echo ""
 COUNTER=-1
 for host in "${miners[@]}"; do
   let COUNTER=COUNTER+1 
   echo -n -e "[$COUNTER]${MENU} Miner IP:${NORMAL} " && echo $host
   echo ""
-done  
-
-reboot_ex() {	
-ssh root@$host 'sync && /sbin/coldreboot'
-echo -n "Reboot signal sent to: "&& echo $host
-echo ""
-}
+done 
 echo -n -e "${MENU}Choose mining server: [0 1 2.. or type all] ${NORMAL}" 
 echo ""
 echo -n  -e "${MENU}[Enter] back to Main Menu${NORMAL}"
@@ -165,8 +174,53 @@ read miner
 echo "$miner" | grep '^[0-9][0-9]*$' >/dev/null 2>&1
 if [ `echo $?` = 0 ] || [ $miner = 'all' ]; then
   if [ $miner = 'all' ]; then
-    echo "Sure to reboot all mining servers ? [y/n] "
-      read choice
+    clear
+    echo -e "${MENU}Sure to restart mining on all servers ? [y/n] ${NORMAL}"
+      read -n 1 choice
+      if [ $choice = 'y' ] || [ $choice = 'yes' ]; then  
+        for host in "${miners[@]}"; do  
+          restart_ex
+        done
+        menu_list
+      elif [ $choice = 'n' ] || [ $choice = 'no' ]; then
+        main_menu
+      else
+        main_menu
+     fi
+elif [ $miner != 'all' ]; then 
+  host="${miners[$miner]}"
+  clear
+  restart_ex
+  menu_list  
+  fi
+else
+  main_menu
+fi 
+}
+reboot() {
+reboot_ex() {	
+ssh root@$host 'sync && /sbin/coldreboot'
+echo -n -e "${MENU}Reboot signal sent to: ${NORMAL}"&& echo $host
+echo ""
+}
+echo ""
+COUNTER=-1
+for host in "${miners[@]}"; do
+  let COUNTER=COUNTER+1 
+  echo -n -e "[$COUNTER]${MENU} Miner IP:${NORMAL} " && echo $host
+  echo ""
+done 
+echo -n -e "${MENU}Choose mining server: [0 1 2.. or type all] ${NORMAL}" 
+echo ""
+echo -n  -e "${MENU}[Enter] back to Main Menu${NORMAL}"
+echo ""
+read miner	
+echo "$miner" | grep '^[0-9][0-9]*$' >/dev/null 2>&1
+if [ `echo $?` = 0 ] || [ $miner = 'all' ]; then
+  if [ $miner = 'all' ]; then
+    clear
+    echo -e "${MENU}Sure to reboot all mining servers ? [y/n] ${NORMAL}"
+      read -n 1 choice
       if [ $choice = 'y' ] || [ $choice = 'yes' ]; then  
         for host in "${miners[@]}"; do   
           reboot_ex
@@ -252,8 +306,8 @@ echo -n  -e "${MENU}[Enter] back to Main Menu${NORMAL}"
 echo ""
 read miner
 if [ -n "$miner" ]; then
-  clear; echo -n "Mining server:  " && echo ${miners[$miner]}
-  echo ""
+  clear; echo -n -e "${MENU}Mining server:  ${NORMAL}" && echo ${miners[$miner]}
+   echo -e "${MENU}Press [CTRL+D] to finish SSH session${NORMAL}"; echo ""
   ssh -t root@${miners[$miner]} "cd /etc/bamt ; ls; bash"
   menu_list
 else 
@@ -393,10 +447,10 @@ echo "Choose miner scrypt/sjane"
 }
   
 case "$1" in
-        scrypt)
+         scrypt)
                 scrypt
                 ;;
-        vertminer)
+         vertminer)
                 vertminer        
                  ;;
          troky)
@@ -405,10 +459,10 @@ case "$1" in
          sph)
                  sph
                  ;;
-        custom)
+         custom)
                 custom        
                  ;;
-        custom1)
+         custom1)
                 custom1        
                  ;;                            
            *)
@@ -612,13 +666,14 @@ show_menu(){
     echo -e "${MENU}************Main Menu***********************${NORMAL}"
     echo -e "${MENU}**${NUMBER} 1)${MENU} Show mining servers status ${NORMAL}"
     echo -e "${MENU}**${NUMBER} 2)${MENU} Change pool config for selected miner  ${NORMAL}"
-    echo -e "${MENU}**${NUMBER} 3)${MENU} View pool config for selected miner ${NORMAL}"
+    echo -e "${MENU}**${NUMBER} 3)${MENU} View/Edit pool config for selected miner ${NORMAL}"
     echo -e "${MENU}**${NUMBER} 4)${MENU} Reboot mining server ${NORMAL}"
     echo -e "${MENU}**${NUMBER} 5)${MENU} Switch mining software e.g. scrypt/scrypt-jane/scrypt-n.. ${NORMAL}"
     echo -e "${MENU}**${NUMBER} 6)${MENU} Configure mining server SSH authentication ${NORMAL}"
     echo -e "${MENU}**${NUMBER} 7)${MENU} SSH login to mining server ${NORMAL}"
     echo -e "${MENU}**${NUMBER} 8)${MENU} Send logs to e-mail ${NORMAL}"
-    echo -e "${MENU}**${NUMBER} 9)${MENU} Real time monitoring ${NORMAL}"
+    echo -e "${MENU}**${NUMBER} 9)${MENU} Restart mining ${NORMAL}"
+    echo -e "${MENU}*${NUMBER} 10)${MENU} Real time monitoring ${NORMAL}"
     echo -e "${MENU}*********************************************${NORMAL}"
     echo -e "${ENTER_LINE}Please pick a menu option and enter or ${RED_TEXT}enter to exit. ${NORMAL}"
     read opt
@@ -682,6 +737,11 @@ while [ opt != '' ]
             main_menu     
             ;;
          9) clear;
+            option_picked "Restart mining";
+            restart
+            main_menu     
+            ;;    
+         10) clear;
             option_picked "Real time monitoring";
             monitor
             main_menu     
@@ -936,5 +996,5 @@ if [ $# -eq 0 ]; then
 elif [ "$1" = 'cron' ]; then
   cron
 else 
-  echo 'Unknow parameter, use "cron" to check all miners, e.g. ./minessh cron' 
+  echo 'Unknow parameter, use "cron" to check all miners, e.g. ./mine.sh cron' 
 fi
