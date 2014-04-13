@@ -1,7 +1,7 @@
 minessh
 =======
 
-Controlling mining servers over SSH
+Control mining servers over SSH
 
 **Overview**
 
