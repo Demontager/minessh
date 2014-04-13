@@ -11,7 +11,7 @@ Also it is possible to add your own custom compiled miner and switch to it withi
 Tested on Lubuntu 13.10 and on any Debian based distros should work out of box, also it could run on any Linux distro with small modifications.
 
 
-**List of features:**
+**Full list of features:**
 
 -Power of secured SSH connection (use only SSH)
 
@@ -27,9 +27,11 @@ Tested on Lubuntu 13.10 and on any Debian based distros should work out of box, 
 
 -Reboot selected miner or all together
 
--View pool config for selected miner
+-View/Edit pool config for selected miner
 
 -Switch over between 4 included mining software in BAMT 1.6 + 2 custom
+
+-Restart mining process on all servers
 
 -Allows to do quick SSH login to mining servers
 
@@ -83,6 +85,8 @@ E-mail notification: http://simplest-image-hosting.net/jpg-0-email
 
 **Updates:**
 
+13.04.2014-Added edit config and restart mining option
+
 11.04.2014-Added email notifications
 
 08.04.2014 -Separated bamt/pimp scripts 
@@ -95,7 +99,7 @@ E-mail notification: http://simplest-image-hosting.net/jpg-0-email
 
 
 
-**You may give me some bounty to support my work and further improvement:**
+**You may send me some bounty to support my work and further improvement:**
 
 BTC: 1PGgybf5QbCTohCoRgEA4Q5ZSLhpSsg8cn
 
