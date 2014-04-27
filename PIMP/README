@@ -1,6 +1,6 @@
 Files overview
 =====
-Note: These files are for development purposes only. 
+Warning: These files are for development purposes only. 
 pimp.sh - manage mining servers running on PIMP Debian 64bit OS
 bamtpimp.sh - manage mining servers running on BAMT or PIMP with single file.
 viewgpu - fixed version of "viewgpu" for PIMP. Place it to /opt/ifmi/pimp and do chmod +x viewgpu
