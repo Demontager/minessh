@@ -55,7 +55,7 @@ Tested on Lubuntu 13.10 and on any Debian based distros should work out of box, 
 
 7. If you would like to setup cron job then you need to run script with cron parameter. For example to test mining servers every 20 minutes add line to crontab   */20 * * * * /root/mine.sh cron
 8. Enable email notifications, set notify="YES" and enter email details. Then while running cron task script will perform checks and if mining failed you will get email. Also at any time you may send mining logs from all miners to defined email, this option available within main menu.
-9. For cron job also set video card temperature reboot limit.
+9. For cron job set video card temperature limit.
 
 **How to add your custom miner. As an example explained how to add YACminer.**
 
