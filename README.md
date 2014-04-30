@@ -46,9 +46,9 @@ Tested on Lubuntu 13.10 and on any Debian based distros should work out of box, 
 
 1. Download script to any folder
 2. Make script executable chmod +x mine.sh
-3. Open minessh_config.txt, define mining servers IP and configure pools
+3. Open minessh.conf, define mining servers IP and configure pools
 4. Launch script ./mine.sh
-5. Set up non-password authentication. Press 7 and procceed to further instructions.
+5. Set up non-password authentication. Press 6 and procceed to further instructions.
 6. All done. You may back to menu and choose desired option.
 
 *(Optional)*
