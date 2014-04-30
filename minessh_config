@@ -1,0 +1,41 @@
+# Configuration file for minessh script
+# Keep this config in same folder with main script
+#
+# 1. Define mining server ip and port, uncomment(remove trailing #) or add aditional if required
+
+miners[0]="192.168.1.1 -p 22"
+miners[1]="192.168.1.2 -p 22"
+miners[2]="192.168.1.3 -p 22"
+#miners[3]="000.00.00.00 -p 22"
+#miners[4]="000.00.00.00 -p 22"
+
+# 2. Define your mining pools. Change "url", "user", "pass" fields. Unlimited pools could be specified, two as example only. 
+
+config=$(cat << 'EOF'
+{
+"pools" : [
+          {
+           "url" : "stratum+tcp://server:3336",
+           "user" : "User",
+           "pass" : "x"
+          },
+          {
+           "url" : "stratum+tcp://server1:3336",
+           "user" : "User",
+           "pass" : "x"
+          }
+]
+EOF
+)
+
+# 3. Enable email notification ? YES/NO, default: NO
+notify="YES"
+
+# 4. Define mail settings to get notified. Leave smpt and port as default if gmail used.
+email="your_id@gmail.com"
+password="your_password"
+smtp="smtp.gmail.com"
+port="587"
+
+# 5. For cron job. If video card temperature drops below this limit, mining server will be rebooted.
+temperature="52"
