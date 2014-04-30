@@ -1,43 +1,8 @@
 #!/bin/bash
 # author: demontager
 # website: nixtalk.com
-#********Secton for configuration**************************************#
-
-# 1. Define mining server ip and port, uncomment(remove trailing #) or add aditional if required
-
-miners[0]="192.168.1.1 -p 22"
-miners[1]="192.168.1.2 -p 22"
-miners[2]="192.168.1.3 -p 22"
-#miners[3]="000.00.00.00 -p 22"
-#miners[4]="000.00.00.00 -p 22"
-
-# 2. Define your mining pools. Change "url", "user", "pass" fields. Unlimited pools could be specified, two as example only. 
-#************************POOL CONFIG***********************************#
-config=$(cat << 'EOF'
-{
-"pools" : [
-          {
-            "url" : "stratum+tcp://server:3336",
-            "user" : "User",
-            "pass" : "x"
-          },
-          {
-            "url" : "stratum+tcp://server1:3336",
-            "user" : "User",
-            "pass" : "x"
-          }
-]
-EOF
-)
-# 3. Enable email notification ? YES/NO, default: NO
-notify="NO"
-
-# 4. Define mail settings to get notified. Leave smpt and port as default if gmail used.
-email="your_id@gmail.com"
-password="your_password"
-smtp="smtp.gmail.com"
-port="587"
-#***************Configuration END**************************************#
+#**********************************************************************#
+source $(dirname $0)/minessh_config
 
 bamt() {
 pool() {
@@ -649,7 +614,7 @@ If promted for root password enter it to install msmtp automatically"
   fi
 else
   echo ""
-  echo -e "${ENTER_LINE}First enable email notification then you may use this feature${RED_TEXT}
+  echo -e "${ENTER_LINE}First enable email notification in config then you may use this feature${RED_TEXT}
 ${MENU}Press [Enter] or any key to back in Main Menu${NORMAL}"
   read -s -n1  key
   if [ -z $key ]; then  
@@ -878,8 +843,11 @@ done
 	
 if_temp() {	
 for server in "${miners[@]}"; do	
-cat <<'EOF' | ssh root@$server 'cat - > /tmp/cardcheck.sh && chmod +x /tmp/cardcheck.sh && /tmp/cardcheck.sh'
-targetMinTemp=57
+{
+cat <<EOT
+targetMinTemp="$temperature"
+EOT
+cat <<"EOF"
 sickres="/tmp/if_sick.txt"
 i=0
 (/opt/bamt/viewgpu | awk '{ print $2; }' | cut -c -2 > /tmp/viewgpu)
@@ -924,13 +892,17 @@ if [ "$status" = 0 ]; then
   done
 fi
 EOF
+} | ssh root@$server 'cat - > /tmp/cardcheck.sh && chmod +x /tmp/cardcheck.sh && /tmp/cardcheck.sh'
 done
 }
 
-if_temp_mail() {	
+if_temp_mail() {
 for server in "${miners[@]}"; do	
-cat <<'EOF' | ssh root@$server 'cat - > /tmp/cardcheck.sh && chmod +x /tmp/cardcheck.sh && /tmp/cardcheck.sh'
-targetMinTemp=57
+{
+cat <<EOT
+targetMinTemp="$temperature"
+EOT
+cat <<"EOF"
 sickres="/tmp/if_sick.txt"
 i=0
 (/opt/bamt/viewgpu | awk '{ print $2; }' | cut -c -2 > /tmp/viewgpu)
@@ -978,6 +950,7 @@ if [ "$status" = 0 ]; then
   done
 fi
 EOF
+} | ssh root@$server 'cat - > /tmp/cardcheck.sh && chmod +x /tmp/cardcheck.sh && /tmp/cardcheck.sh'
 done
 }
 
