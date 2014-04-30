@@ -2,7 +2,7 @@
 # author: demontager
 # website: nixtalk.com
 #**********************************************************************#
-source $(dirname $0)/minessh_config
+source $(dirname $0)/minessh.conf
 
 bamt() {
 pool() {
