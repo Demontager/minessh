@@ -46,7 +46,7 @@ Tested on Lubuntu 13.10 and on any Debian based distros should work out of box, 
 
 1. Download script to any folder
 2. Make script executable chmod +x mine.sh
-3. Edit mining servers IP in script body. Also configure pools
+3. Open minessh_config.txt, define mining servers IP and configure pools
 4. Launch script ./mine.sh
 5. Set up non-password authentication. Press 7 and procceed to further instructions.
 6. All done. You may back to menu and choose desired option.
@@ -55,7 +55,7 @@ Tested on Lubuntu 13.10 and on any Debian based distros should work out of box, 
 
 7. If you would like to setup cron job then you need to run script with cron parameter. For example to test mining servers every 20 minutes add line to crontab   */20 * * * * /root/mine.sh cron
 8. Enable email notifications, set notify="YES" and enter email details. Then while running cron task script will perform checks and if mining failed you will get email. Also at any time you may send mining logs from all miners to defined email, this option available within main menu.
-
+9. For cron job also set video card temperature reboot limit.
 
 **How to add your custom miner. As an example explained how to add YACminer.**
 
@@ -85,9 +85,11 @@ E-mail notification: http://simplest-image-hosting.net/jpg-0-email
 
 **Updates:**
 
-13.04.2014-Added edit config and restart mining option
+30.04.2014 -Configuration options sent to external file
 
-11.04.2014-Added email notifications
+13.04.2014 -Added edit config and restart mining option
+
+11.04.2014 -Added email notifications
 
 08.04.2014 -Separated bamt/pimp scripts 
 
