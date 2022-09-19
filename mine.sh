@@ -1,6 +1,6 @@
 #!/bin/bash
 # author: demontager
-# website: nixtalk.com
+
 #**********************************************************************#
 source $(dirname $0)/minessh.conf
 
